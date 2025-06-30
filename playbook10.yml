@@ -1,0 +1,16 @@
+---
+- name: create users and create files/dirs in users home dir
+  hosts: all
+  become: true
+  tasks:
+    - name: create users
+      user:
+        name: "{{ a }}"
+        password: "{{ b }}"
+        home: "{{ c }}"
+
+    - name: create files/dirs in users home dir
+      file:
+        path: "{{ d }}"
+        state: "{{ e }}"
+
