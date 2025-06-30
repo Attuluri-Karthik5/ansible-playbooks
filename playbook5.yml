@@ -1,0 +1,18 @@
+---
+- name: create a user and copy passwd file into the users home dir and change ownership
+  hosts: all
+  tasks:
+    - name: create user
+      user:
+        name: hari
+        password: intelliqit
+        home: /tmp/hari
+        uid: 8989
+        shell: /bin/bash
+        comment: "a super user"
+    - name: copy passwd file
+      copy:
+        src: /etc/passwd
+        dest: /tmp/hari
+        owner: hari
+        group: hari
