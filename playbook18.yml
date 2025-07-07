@@ -1,27 +1,34 @@
 ---
-- name: configuring apache2
+- name: Implementing handlers
   hosts: all
+  become: yes
+
   tasks:
-    - name: install apache2
+    - name: Install apache2
       apt:
         name: apache2
         state: present
         update_cache: yes
+      notify: Restart apache2
+
     - name: Edit the index.html file
       copy:
         content: "IntelliQ"
         dest: /var/www/html/index.html
-    - name: restart apache2
+      notify: Restart apache2
+
+  handlers:
+    - name: Restart apache2
       service:
         name: apache2
         state: restarted
-    - name: check apache response on server1
+
+    - name: check apache response
       uri:
-        url: http://172.31.21.159
+        url: "{{ item }}"
         status_code: 200
-    - name: check apache response on server2
-      uri:
-        url: http://172.31.24.64
-        status_code: 200
-...
-    
+      loop:
+        - http://172.31.24.64
+        - http://172.31.21.159
+
+
