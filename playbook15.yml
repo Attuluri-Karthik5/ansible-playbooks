@@ -1,0 +1,15 @@
+---
+- name: Install, uninstall, update multiple s/w apps
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install, uninstall, or update software
+      apt:
+        name: "{{ item.a }}"
+        state: "{{ item.b }}"
+        update_cache: "{{ item.c }}"
+      loop:
+        - {a: git, b: present, c: no}
+        - {a: maven, b: absent, c: no}
+        - {a: openjdk-17-jdk, b: latest, c: yes}
+...
